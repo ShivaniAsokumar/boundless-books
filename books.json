@@ -1,0 +1,32 @@
+[
+	{
+		"imageUrl": "https://m.media-amazon.com/images/I/916SGGXt8VS._SY466_.jpg",
+		"bookTitle": "Six of Crows",
+		"author": "Leigh Bardugo"
+	},
+	{
+		"imageUrl": "https://m.media-amazon.com/images/I/71mOIPgYUDL._SY466_.jpg",
+		"bookTitle": "Vicious",
+		"author": "VE Schwab"
+	},
+	{
+		"imageUrl": "https://m.media-amazon.com/images/I/51ykzyI5t7L._SY445_SX342_.jpg",
+		"bookTitle": "Kaikeyi",
+		"author": "Vaishnavi Patel"
+	},
+	{
+		"imageUrl": "https://m.media-amazon.com/images/I/A1fs-ErenkL._SY466_.jpg",
+		"bookTitle": "A Gentleman in Moscow",
+		"author": "Amor Towles"
+	},
+	{
+		"imageUrl": "https://m.media-amazon.com/images/I/51fMaH1tRyL._SY445_SX342_.jpg",
+		"bookTitle": "Remarkably Bright Creatures",
+		"author": "Shelby Van Pelt"
+	},
+	{
+		"imageUrl": "https://m.media-amazon.com/images/I/71G3zJJHVGL._AC_UL320_.jpg",
+		"bookTitle": "The Picture of Dorian Gray",
+		"author": "Oscar Wilde"
+	}
+]
