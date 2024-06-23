@@ -1,6 +1,4 @@
 import React from 'react';
-import PageTitle from '@/components/PageTitle';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 
@@ -14,20 +12,6 @@ const Page = () => {
 				<p className="text-lg text-gray-700 mb-8 ">
 					Your personal library, anywhere.
 				</p>
-				<div>
-					<Link
-						href="/"
-						className="bg-palette-primary hover:bg-palette-dark text-white font-bold py-3 px-6 rounded-lg mr-4"
-					>
-						Login
-					</Link>
-					<Link
-						href="/"
-						className="text-gray-700 hover:text-gray-900 font-bold"
-					>
-						Sign Up
-					</Link>
-				</div>
 			</div>
 
 			{/* Illustrative Section */}
@@ -101,11 +85,11 @@ const Page = () => {
 							</div>
 							<div>
 								<h3 className="text-2xl font-semibold text-gray-800 mb-2  ">
-									Discover New Books
+									Favorite Books
 								</h3>
 								<p className="text-gray-700">
-									Explore recommendations based on your
-									interests and reading history.
+									Add your favorite books and explore them in
+									their dedicated page.
 								</p>
 							</div>
 						</div>
@@ -128,106 +112,11 @@ const Page = () => {
 							</div>
 							<div>
 								<h3 className="text-2xl font-semibold text-gray-800 mb-2  ">
-									Create Custom Book Lists
+									Edit Your Books
 								</h3>
 								<p className="text-gray-700">
-									Organize books into lists like favorites,
-									to-read, and currently reading.
-								</p>
-							</div>
-						</div>
-						<div className="flex items-center mb-6">
-							<div className="mr-6">
-								<svg
-									className="w-12 h-12 text-palette-primary"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m0 6v2m0-2a2 2 0 100-4m0 4a2 2 0 110-4m0 6v2m0-2a2 2 0 100-4m0 4a2 2 0 110-4"
-									></path>
-								</svg>
-							</div>
-							<div>
-								<h3 className="text-2xl font-semibold text-gray-800 mb-2  ">
-									Community Discussions
-								</h3>
-								<p className="text-gray-700">
-									Participate in book discussions, reviews,
-									and recommendations with a community of
-									readers.
-								</p>
-							</div>
-						</div>
-						<div className="flex items-center mb-6">
-							<div className="mr-6">
-								<svg
-									className="w-12 h-12 text-palette-primary"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-									></path>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M20 12a8 8 0 11-16 0 8 8 0 0116 0z"
-									></path>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M4.57 15.43a8 8 0 010-9.86M19.43 8.57a8 8 0 010 9.86"
-									></path>
-								</svg>
-							</div>
-							<div>
-								<h3 className="text-2xl font-semibold text-gray-800 mb-2  ">
-									Personalized Recommendations
-								</h3>
-								<p className="text-gray-700">
-									Receive personalized book recommendations
-									based on your reading habits and
-									preferences.
-								</p>
-							</div>
-						</div>
-						<div className="flex items-center mb-6">
-							<div className="mr-6">
-								<svg
-									className="w-12 h-12 text-palette-primary"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M12 10l4-4m0 0l4 4m-4-4v14"
-									></path>
-								</svg>
-							</div>
-							<div>
-								<h3 className="text-2xl font-semibold text-gray-800 mb-2  ">
-									Reading Recommendations
-								</h3>
-								<p className="text-gray-700">
-									Get reading suggestions tailored to your
-									current interests and reading history.
+									Feel free to edit or delete any book from
+									your tracker.
 								</p>
 							</div>
 						</div>

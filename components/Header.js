@@ -21,6 +21,14 @@ const Header = () => {
 		setAuthProviders();
 	}, []);
 
+	const handleLoginClick = (providerId) => {
+		signIn(providerId, { callbackUrl: '/books' });
+	};
+
+	const handleLogoutClick = () => {
+		signOut({ callbackUrl: '/' });
+	};
+
 	return (
 		<header className="border-b border-palette-lighter sticky top-0 z-20 bg-white">
 			<div className="flex items-center  mx-auto max-w-6xl px-6 pb-2 pt-4 md:pt-6">
@@ -42,7 +50,7 @@ const Header = () => {
 					providers &&
 					Object.values(providers).map((provider, index) => (
 						<button
-							onClick={() => signIn(provider.id)}
+							onClick={() => handleLoginClick(provider.id)}
 							key={index}
 							href="/books"
 							className="bg-palette-primary hover:bg-palette-dark text-white font-bold py-3 px-6 rounded-lg ml-auto"
@@ -72,11 +80,7 @@ const Header = () => {
 								height={40}
 							/>
 						</button>
-						<button
-							onClick={() => {
-								signOut();
-							}}
-						>
+						<button onClick={handleLogoutClick}>
 							<FontAwesomeIcon
 								icon={faRightFromBracket}
 								className="ml-5 text-xl text-palette-primary hover:text-black"
