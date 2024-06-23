@@ -1,13 +1,19 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 
 const AddBookPage = () => {
 	const [formData, setFormData] = useState({
 		coverUrl: '',
 		title: '',
 		author: '',
+		rating: null, // Initialize rating as null or with a default value
 	});
+
+	const [hoveredIndex, setHoveredIndex] = useState(-1); // State to track hovered star index
 
 	const router = useRouter();
 
@@ -16,8 +22,68 @@ const AddBookPage = () => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
+	const handleStarHover = (index) => {
+		setHoveredIndex(index);
+	};
+
+	const handleStarLeave = () => {
+		setHoveredIndex(-1); // Reset hover state when mouse leaves stars
+	};
+
+	const handleStarClick = (index) => {
+		// Set the rating in formData when a star is clicked
+		const newRating = index + 1;
+		setFormData({
+			...formData,
+			rating: newRating === formData.rating ? null : newRating,
+		});
+	};
+
+	// Function to render stars based on current rating and hover state
+	const renderStars = () => {
+		const stars = [];
+
+		for (let i = 0; i < 5; i++) {
+			if (
+				i <
+				(hoveredIndex !== -1 ? hoveredIndex + 1 : formData.rating || 0)
+			) {
+				stars.push(
+					<FontAwesomeIcon
+						key={i}
+						icon={faSolidStar}
+						className="text-yellow-400 text-lg cursor-pointer"
+						onMouseEnter={() => handleStarHover(i)}
+						onMouseLeave={handleStarLeave}
+						onClick={() => handleStarClick(i)}
+					/>
+				);
+			} else {
+				stars.push(
+					<FontAwesomeIcon
+						key={i}
+						icon={faRegularStar}
+						className="text-yellow-400 text-lg cursor-pointer"
+						onMouseEnter={() => handleStarHover(i)}
+						onMouseLeave={handleStarLeave}
+						onClick={() => handleStarClick(i)}
+					/>
+				);
+			}
+		}
+
+		return stars;
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		// TODO: Add error handling for when rating is not provided
+		if (formData.rating === null) {
+			alert('Rating is required.');
+			return; // Exit the function if rating is not provided
+		}
+
 		try {
 			const response = await fetch(
 				`${process.env.NEXT_PUBLIC_API_DOMAIN}/books`,
@@ -30,16 +96,23 @@ const AddBookPage = () => {
 						imageUrl: formData.coverUrl,
 						bookTitle: formData.title,
 						author: formData.author,
+						rating: formData.rating, // Include rating in the request body
 					}),
 				}
 			);
 
 			const result = await response.json();
+
 			if (result.success) {
-				setFormData({ coverUrl: '', title: '', author: '' }); // Reset form
+				setFormData({
+					coverUrl: '',
+					title: '',
+					author: '',
+					rating: null,
+				}); // Reset form including rating
 				router.push('/books'); // Redirect to /books page
 			} else {
-				alert('Error: ' + result.error);
+				alert('Error result not success: ' + result.error);
 			}
 		} catch (error) {
 			alert('Error: ' + error.message);
@@ -107,6 +180,15 @@ const AddBookPage = () => {
 								placeholder="Author Name"
 								required
 							/>
+						</div>
+						<div className="flex items-center">
+							<label
+								htmlFor="rating"
+								className="block text-lg font-medium text-gray-700 mr-2"
+							>
+								Rating:
+							</label>
+							<div className="flex mb-2">{renderStars()}</div>
 						</div>
 						<div className="text-center">
 							<button

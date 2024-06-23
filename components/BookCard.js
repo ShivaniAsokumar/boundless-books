@@ -12,7 +12,7 @@ import {
 	faStar as faRegularStar,
 } from '@fortawesome/free-regular-svg-icons';
 
-const BookCard = ({ imageUrl, bookTitle, author, bookId }) => {
+const BookCard = ({ imageUrl, bookTitle, author, bookId, rating }) => {
 	const [isFavorite, setIsFavorite] = useState(false);
 
 	const { data: session } = useSession();
@@ -40,7 +40,6 @@ const BookCard = ({ imageUrl, bookTitle, author, bookId }) => {
 				alert('Something went wrong with favorite');
 			}
 		};
-
 		checkFavoriteStatus();
 	}, [bookId, userId]);
 
@@ -71,6 +70,37 @@ const BookCard = ({ imageUrl, bookTitle, author, bookId }) => {
 		}
 	};
 
+	// Function to render star icons based on rating
+	const renderStarIcons = () => {
+		const solidStars = rating; // Number of solid stars based on rating
+		const regularStars = 5 - rating; // Remaining regular stars
+
+		const stars = [];
+		// Add solid star icons
+		for (let i = 0; i < solidStars; i++) {
+			stars.push(
+				<FontAwesomeIcon
+					key={`solid-star-${i}`}
+					icon={faSolidStar}
+					className="text-yellow-400 text-lg"
+				/>
+			);
+		}
+
+		// Add regular star icons for the remaining
+		for (let i = 0; i < regularStars; i++) {
+			stars.push(
+				<FontAwesomeIcon
+					key={`regular-star-${i}`}
+					icon={faRegularStar}
+					className="text-yellow-400 text-lg"
+				/>
+			);
+		}
+
+		return stars;
+	};
+
 	return (
 		<>
 			<Link href={`/books/${bookId}`}>
@@ -84,28 +114,7 @@ const BookCard = ({ imageUrl, bookTitle, author, bookId }) => {
 					<div className="text-lg text-gray-600 p-4 font-primary font-light">
 						by {author}
 					</div>
-					<div className="float-left pl-4">
-						<FontAwesomeIcon
-							icon={faRegularStar}
-							className="text-yellow-400 text-lg"
-						/>
-						<FontAwesomeIcon
-							icon={faRegularStar}
-							className="text-yellow-400 text-lg"
-						/>
-						<FontAwesomeIcon
-							icon={faRegularStar}
-							className="text-yellow-400 text-lg"
-						/>
-						<FontAwesomeIcon
-							icon={faRegularStar}
-							className="text-yellow-400 text-lg"
-						/>
-						<FontAwesomeIcon
-							icon={faRegularStar}
-							className="text-yellow-400 text-lg"
-						/>
-					</div>
+					<div className="float-left pl-4">{renderStarIcons()}</div>
 				</div>
 			</Link>
 

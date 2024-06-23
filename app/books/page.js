@@ -77,6 +77,7 @@ const BookListing = () => {
 							bookTitle={book.bookTitle}
 							author={book.author}
 							bookId={book._id}
+							rating={book.rating}
 						/>
 
 						<button

@@ -39,13 +39,14 @@ export const POST = async (req) => {
 
 		const { userId } = sessionUser;
 
-		const { imageUrl, bookTitle, author } = await req.json();
+		const { imageUrl, bookTitle, author, rating } = await req.json();
 
 		const newBook = new Book({
+			owner: userId,
 			imageUrl,
 			bookTitle,
 			author,
-			owner: userId,
+			rating,
 		});
 
 		await newBook.save();
