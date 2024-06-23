@@ -16,6 +16,7 @@ module.exports = {
 					light: '#DDD6FE',
 					primary: '#5B21B6',
 					dark: '#4C1D95',
+					favorite: '#EE4E4E',
 				},
 			},
 			fontFamily: {

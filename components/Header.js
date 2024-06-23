@@ -6,6 +6,7 @@ import profileDefault from '@/public/profile.png';
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 const Header = () => {
 	const { data: session } = useSession();
@@ -43,9 +44,13 @@ const Header = () => {
 						<button
 							onClick={() => signIn(provider.id)}
 							key={index}
-							href="/"
+							href="/books"
 							className="bg-palette-primary hover:bg-palette-dark text-white font-bold py-3 px-6 rounded-lg ml-auto"
 						>
+							<FontAwesomeIcon
+								icon={faGoogle}
+								className="mr-3 text-xl  hover:text-black"
+							/>
 							Login
 						</button>
 					))}

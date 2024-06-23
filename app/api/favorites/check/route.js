@@ -3,7 +3,7 @@ import User from '@/models/User';
 import Book from '@/models/Book';
 import { getSessionUser } from '@/utils/getSessionUser';
 
-// GET /api/favorites
+// GET /api/favorites/check
 export const GET = async (req) => {
 	try {
 		await connectDB();
@@ -50,23 +50,7 @@ export const POST = async (req) => {
 		// Check if book is a favorite
 		let isFavorite = user.favorites.includes(bookId);
 
-		let message;
-
-		if (isFavorite) {
-			// If already favorite, we remove it
-			user.favorites.pull(bookId);
-			message = 'Favorite removed successfully';
-			isFavorite = false;
-		} else {
-			// If not favorite, add it
-			user.favorites.push(bookId);
-			message = 'Favorite added successfully';
-			isFavorite = true;
-		}
-
-		await user.save();
-
-		return new Response(JSON.stringify({ message, isFavorite }), {
+		return new Response(JSON.stringify({ isFavorite }), {
 			status: 200,
 		});
 	} catch (error) {

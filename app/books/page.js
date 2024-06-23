@@ -21,14 +21,12 @@ const BookListing = () => {
 
 	const { data: session } = useSession();
 	const userName = session?.user?.name;
-	const userId = session?.user?.id;
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await fetchBooks();
 			setBooks(data);
 		};
-
 		fetchData();
 	}, []);
 
@@ -82,7 +80,7 @@ const BookListing = () => {
 						/>
 
 						<button
-							className="absolute bottom-0 left-0 mb-4 ml-4 py-2 px-2 text-palette-primary"
+							className="absolute bottom-0 left-0 mb-4 ml-4 py-2 px-2 text-palette-favorite"
 							onClick={() => handleDelete(book._id)}
 						>
 							<FontAwesomeIcon

@@ -1,13 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faHeart as faSolidHeart,
+	faStar as faSolidStar,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+	faHeart as faRegularHeart,
+	faStar as faRegularStar,
+} from '@fortawesome/free-regular-svg-icons';
 
 const BookCard = ({ imageUrl, bookTitle, author, bookId }) => {
 	const [isFavorite, setIsFavorite] = useState(false);
 
 	const { data: session } = useSession();
 	const userId = session?.user?.id;
+
+	useEffect(() => {
+		const checkFavoriteStatus = async () => {
+			try {
+				const res = await fetch('/api/favorites/check', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						bookId: bookId,
+					}),
+				});
+
+				if (res.status === 200) {
+					const data = await res.json();
+					setIsFavorite(data.isFavorite);
+				}
+			} catch (error) {
+				console.log(error);
+				alert('Something went wrong with favorite');
+			}
+		};
+
+		checkFavoriteStatus();
+	}, [bookId, userId]);
 
 	const handleFavClick = async () => {
 		if (!userId) {
@@ -49,18 +84,43 @@ const BookCard = ({ imageUrl, bookTitle, author, bookId }) => {
 					<div className="text-lg text-gray-600 p-4 font-primary font-light">
 						by {author}
 					</div>
+					<div className="float-left pl-4">
+						<FontAwesomeIcon
+							icon={faRegularStar}
+							className="text-yellow-400 text-lg"
+						/>
+						<FontAwesomeIcon
+							icon={faRegularStar}
+							className="text-yellow-400 text-lg"
+						/>
+						<FontAwesomeIcon
+							icon={faRegularStar}
+							className="text-yellow-400 text-lg"
+						/>
+						<FontAwesomeIcon
+							icon={faRegularStar}
+							className="text-yellow-400 text-lg"
+						/>
+						<FontAwesomeIcon
+							icon={faRegularStar}
+							className="text-yellow-400 text-lg"
+						/>
+					</div>
 				</div>
 			</Link>
 
-			<button
-				onClick={handleFavClick}
-				className={
-					isFavorite
-						? 'text-palette-primary font-primary font-medium text-base absolute bottom-0 right-0 mb-4 pl-8 pr-4 pb-1 pt-2 bg-palette-primary rounded-tl-sm triangle opacity-80'
-						: 'text-palette-primary font-primary font-medium text-base absolute bottom-0 right-0 mb-4 pl-8 pr-4 pb-1 pt-2 bg-palette-lighter rounded-tl-sm triangle'
-				}
-			>
-				<span className="text-lg">Fav</span>
+			<button onClick={handleFavClick}>
+				{isFavorite ? (
+					<FontAwesomeIcon
+						icon={faSolidHeart}
+						className="absolute bottom-0 right-0 mb-4 mr-4 py-2 px-2 text-2xl text-palette-favorite"
+					/>
+				) : (
+					<FontAwesomeIcon
+						icon={faRegularHeart}
+						className="absolute bottom-0 right-0 mb-4 mr-4 py-2 px-2 text-2xl text-palette-primary hover:text-palette-favorite"
+					/>
+				)}
 			</button>
 		</>
 	);

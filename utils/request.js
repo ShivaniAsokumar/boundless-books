@@ -31,6 +31,24 @@ async function fetchBook(id) {
 	}
 }
 
+// Fetch favorite books
+const fetchFavoriteBooks = async () => {
+	try {
+		const res = await fetch(
+			`${process.env.NEXT_PUBLIC_API_DOMAIN}/favorites`
+		);
+
+		if (!res.ok) {
+			throw new Error('Failed to fetch data');
+		}
+
+		return res.json();
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
+};
+
 async function deleteBook(id) {
 	try {
 		const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/books`, {
@@ -53,4 +71,4 @@ async function deleteBook(id) {
 	}
 }
 
-export { fetchBooks, fetchBook, deleteBook };
+export { fetchBooks, fetchBook, fetchFavoriteBooks, deleteBook };
