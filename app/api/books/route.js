@@ -94,7 +94,7 @@ export const PUT = async (req) => {
 	try {
 		await connectDB();
 
-		const { id, imageUrl, bookTitle, author } = await req.json();
+		const { id, imageUrl, bookTitle, author, rating } = await req.json();
 
 		console.log('Inside PUT:', imageUrl);
 
@@ -115,6 +115,7 @@ export const PUT = async (req) => {
 		book.imageUrl = imageUrl;
 		book.bookTitle = bookTitle;
 		book.author = author;
+		book.rating = rating;
 
 		// Save the updated book
 		await book.save();

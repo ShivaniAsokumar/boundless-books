@@ -17,6 +17,7 @@ const BookListing = () => {
 		imageUrl: '',
 		title: '',
 		author: '',
+		rating: null,
 	});
 
 	const { data: session } = useSession();
@@ -42,11 +43,12 @@ const BookListing = () => {
 		}
 	};
 
-	const openModal = (id, imageUrl, title, author) => {
+	const openModal = (id, imageUrl, title, author, rating) => {
 		setEditFormContent({
 			imageUrl,
 			title,
 			author,
+			rating,
 		});
 		setIsModalOpen(true);
 		setIdOfBookToEdit(id);
@@ -96,7 +98,8 @@ const BookListing = () => {
 									book._id,
 									book.imageUrl,
 									book.bookTitle,
-									book.author
+									book.author,
+									book.rating
 								)
 							}
 						>

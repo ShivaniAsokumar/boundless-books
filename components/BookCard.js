@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,9 +14,88 @@ import {
 
 const BookCard = ({ imageUrl, bookTitle, author, bookId, rating }) => {
 	const [isFavorite, setIsFavorite] = useState(false);
+	const [hoveredIndex, setHoveredIndex] = useState(-1); // State to track hovered star index
+	const [updatedRating, setUpdatedRating] = useState(null);
 
 	const { data: session } = useSession();
 	const userId = session?.user?.id;
+
+	const router = useRouter();
+
+	const handleStarHover = (index) => {
+		setHoveredIndex(index);
+	};
+
+	const handleStarLeave = () => {
+		setHoveredIndex(-1); // Reset hover state when mouse leaves stars
+	};
+
+	const handleStarClick = async (index) => {
+		// Set the rating in formData when a star is clicked
+		const newRating = index + 1;
+		// setUpdatedRating(newRating);
+
+		try {
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_DOMAIN}/books`,
+				{
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						id: bookId,
+						imageUrl,
+						bookTitle,
+						author,
+						rating: newRating,
+					}),
+				}
+			);
+
+			const result = await response.json();
+			if (!result.success) {
+				alert('SOmething wrong with PUT');
+			}
+
+			window.location.reload();
+		} catch (error) {
+			alert('Error: ' + error.message);
+		}
+	};
+
+	// Function to render stars based on current rating and hover state
+	const renderStars = () => {
+		const stars = [];
+
+		for (let i = 0; i < 5; i++) {
+			if (i < (hoveredIndex !== -1 ? hoveredIndex + 1 : rating || 0)) {
+				stars.push(
+					<FontAwesomeIcon
+						key={i}
+						icon={faSolidStar}
+						className="text-yellow-400 text-lg cursor-pointer"
+						onMouseEnter={() => handleStarHover(i)}
+						onMouseLeave={handleStarLeave}
+						onClick={() => handleStarClick(i)}
+					/>
+				);
+			} else {
+				stars.push(
+					<FontAwesomeIcon
+						key={i}
+						icon={faRegularStar}
+						className="text-yellow-400 text-lg cursor-pointer"
+						onMouseEnter={() => handleStarHover(i)}
+						onMouseLeave={handleStarLeave}
+						onClick={() => handleStarClick(i)}
+					/>
+				);
+			}
+		}
+
+		return stars;
+	};
 
 	useEffect(() => {
 		const checkFavoriteStatus = async () => {
@@ -103,20 +182,18 @@ const BookCard = ({ imageUrl, bookTitle, author, bookId, rating }) => {
 
 	return (
 		<>
-			<Link href={`/books/${bookId}`}>
-				<div className="h-72 border-b-2 pb-6 border-palette-lighter relative">
-					<Image src={imageUrl} alt={bookTitle} layout="fill" />
+			<div className="h-72 border-b-2 pb-6 border-palette-lighter relative">
+				<Image src={imageUrl} alt={bookTitle} layout="fill" />
+			</div>
+			<div className="h-48 relative">
+				<div className="font-primary text-palette-primary leading-none text-2xl pt-4 px-4 font-semibold">
+					{bookTitle}
 				</div>
-				<div className="h-48 relative">
-					<div className="font-primary text-palette-primary leading-none text-2xl pt-4 px-4 font-semibold">
-						{bookTitle}
-					</div>
-					<div className="text-lg text-gray-600 p-4 font-primary font-light">
-						by {author}
-					</div>
-					<div className="float-left pl-4">{renderStarIcons()}</div>
+				<div className="text-lg text-gray-600 p-4 font-primary font-light">
+					by {author}
 				</div>
-			</Link>
+				<div className="float-left pl-4">{renderStars()}</div>
+			</div>
 
 			<button onClick={handleFavClick}>
 				{isFavorite ? (
